@@ -105,12 +105,13 @@ Sein
 ```bash
 auto eth0
 iface eth0 inet dhcp
-hwaddress ether 72:e3:2d:39:dd:54
+hwaddress ether ce:41:6c:53:a0:77
 ```
 Stark
 ```bash
 auto eth0
 iface eth0 inet dhcp
+hwaddress ether 72:e3:2d:39:dd:54
 ```
 Frieren
 ```bash

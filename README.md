@@ -403,3 +403,6 @@ subnet 10.20.4.0 netmask 255.255.255.0 {
 }
 service isc-dhcp-server restart
 ```
+**Bukti :dari client di Switch3 dan Switch4**
+![least-switch3](https://github.com/lalaladi/praksisop2/assets/90541607/471555b0-aadb-4c9b-9cf7-520fe32df31e)
+![least-switch4](https://github.com/lalaladi/praksisop2/assets/90541607/ec869cab-ef00-49f4-86aa-6421f341debe)

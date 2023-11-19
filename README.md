@@ -769,3 +769,160 @@ auth_basic_user_file /etc/nginx/rahasisakita/htpasswd;
 service nginx restart<br>
 **Bukti : pada Revolte**
 lynx granz.channel.B03.com
+
+## **Soal Nomor 12**
+Lalu buat untuk setiap request yang mengandung /its akan di proxy passing menuju halaman https://www.its.ac.id. 
+<br>
+<br>**Langkah Penyelesaian Soal 12 :** <br>
+Pada Eisen : <br>
+nano /etc/nginx/sites-available/lb-granz
+```bash
+ upstream worker {
+ 	server 10.20.3.3; #IP lawine
+ 	server 10.20.3.2; #IP linie
+ 	server 10.20.3.1; #IP lugner
+}
+server {
+    listen 80;
+    server_name granz.channel.B23.com www.granz.channel.B23.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker;
+    }
+
+ 	location ~ /its {
+        proxy_pass https://www.its.ac.id;
+        proxy_set_header Host www.its.ac.id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/rahasisakita/htpasswd;
+
+ }
+```
+```bash
+ln -s /etc/nginx/sites-available/lb-granz /etc/nginx/sites-enabled
+service nginx restart
+```
+Bukti : <br>
+lynx 10.20.2.2/its
+
+
+## **Soal Nomor 13**
+Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].3.69, [Prefix IP].3.70, [Prefix IP].4.167, dan [Prefix IP].4.168.
+<br>
+<br>**Langkah Penyelesaian Soal 13 :** <br>
+Di Himmei kita fixed-in client terlebih dahulu yang memiliki IP sesuai seperti di soal  pada client. Kita pilih Client Richter : <br>
+nano /etc/dhcp/dhcpd.conf
+```bash
+host Richter {
+    hardware ethernet 96:05:97:2a:29:65;
+    fixed-address 10.20.3.70;
+}
+service isc-dhcp-server restart
+```
+Selanjutnya, kita beralih ke Eisen (LB), edit konfigurasi sebagai berikut : <br>
+nano /etc/nginx/sites-available/lb-granz
+```bash
+ upstream worker {
+ 	server 10.20.3.3; #IP lawine
+ 	server 10.20.3.2; #IP linie
+ 	server 10.20.3.1; #IP lugner
+}
+server {
+    listen 80;
+    server_name granz.channel.B23.com www.granz.channel.B23.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+  location / {
+        allow 10.20.3.69;
+        allow 10.20.3.70;
+        allow 10.20.4.167;
+        allow 10.20.4.168;
+        deny all;
+        proxy_pass http://worker;
+    }
+
+    location / {
+        proxy_pass http://worker;
+    }
+
+ 	location ~ /its {
+        proxy_pass https://www.its.ac.id;
+        proxy_set_header Host www.its.ac.id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/rahasisakita/htpasswd;
+
+ }
+```
+service nginx restart<br>
+Bukti : lynx 10.20.2.2/its
+
+
+## **Soal Nomor 14**
+Semua data yang diperlukan, diatur pada Denken dan harus dapat diakses oleh Frieren, Flamme, dan Fern.
+<br>
+<br>**Langkah Penyelesaian Soal 14 :** <br>
+Pada Denken : 
+```bash
+apt-get update
+apt-get install mariadb-server -y
+service mysql start
+```
+Karena database akan diakses oleh tiga worker, tambahkan konfigurasi berikut pada /etc/mysql/my.cnf
+```bash
+[client-server]
+
+# Import all .cnf files from configuration directory
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+[mysqld]
+skip-networking=0
+skip-bind-address
+```
+pada file /etc/mysql/mariadb.conf.d/50-server.cnf ubah [bind-address] menjadi 0.0.0.0 dan restart mysql.
+Setelah itu lakukan konfigurasi mysql sebagai berikut: <br>
+mysql -u root -p
+```bash
+DROP USER IF EXISTS 'kelompokB23'@'%';
+DROP USER IF EXISTS 'kelompokB23'@'localhost';
+CREATE USER 'kelompokb23'@'%' IDENTIFIED BY 'passwordb23';
+CREATE USER 'kelompokb23'@'localhost' IDENTIFIED BY 'passwordb23';
+CREATE DATABASE dbkelompokb23;
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokb23'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokb23'@'localhost';
+FLUSH PRIVILEGES;
+```
+Untuk pembuktian, kita lakukan pada worker laravel sebagai berikut : 
+```
+apt-get update
+apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
+curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+apt-get update
+apt-get install php7.3-mbstring php7.3-xml php7.3-cli php7.3-common php7.3-intl php7.3-opcache php7.3-readline php7.3-mysql php7.3-fpm php7.3-curl unzip wget -y
+wget https://getcomposer.org/download/2.0.13/composer.phar
+chmod +x composer.phar
+mv composer.phar /usr/bin/composer
+apt-get install git -y
+git clone https://github.com/elshiraphine/laravel-simple-rest-api.git
+composer install
+```
+Kemudian, jalankan perintah berikut agar database dapat terlihat : 
+```bash
+mariadb --host=10.20.2.1 --port=3306 --user=kelompokB23 --password=passwordB23 dbkelompokB23 -e "SHOW DATABASES;"
+```

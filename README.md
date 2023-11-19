@@ -93,19 +93,19 @@ Richter
 ```bash
 auto eth0
 iface eth0 inet dhcp
+hwaddress ether 6a:f8:15:8d:77:0c
 ```
 Revolte
 ```bash
 auto eth0
 iface eth0 inet dhcp
+hwaddress ether 0a:07:c7:e6:ed:78
 ```
-Sein (dibuat static untuk ping domain)
+Sein
 ```bash
 auto eth0
-iface eth0 inet static
-	address 10.20.4.4
-	netmask 255.255.255.0
-	gateway 10.20.4.0
+iface eth0 inet dhcp
+hwaddress ether 72:e3:2d:39:dd:54
 ```
 Stark
 ```bash
@@ -204,6 +204,8 @@ www     IN      CNAME   granz.channel.b23.com.
 service bind9 restart
 <br>
 **Bukti : di Sein**
+<br>
+Awalnya Sein dibuat static untuk melakukan ping domain dan setelahnya ubah menjadi dynamic
 ![ping riegel](https://github.com/lalaladi/Jarkom-Modul-2-B23-2023/assets/90541607/c0b6a48b-e988-4068-86a5-e0245efd5713)
 <br>
 

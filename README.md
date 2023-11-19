@@ -34,7 +34,7 @@ iface eth4 inet static
 	address 10.20.4.0
 	netmask 255.255.255.0
 ```bash
-
+<br>
 ●	Himmei
 ```
 auto eth0
@@ -43,6 +43,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.1.0
 ```bash
+<br>
 ●	Heiter
 ```
 auto eth0
@@ -51,6 +52,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.1.0
 ```bash
+<br>
 ●	Denken
 ```
 auto eth0
@@ -59,6 +61,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.2.0
 ```bash
+<br>
 ●	Eisen
 ```
 auto eth0
@@ -67,6 +70,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.2.0
 ```bash
+<br>
 ●	Lugner
 ```
 auto eth0
@@ -75,6 +79,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway10.20.3.0
 ```bash
+<br>
 ●	Linie
 ```
 auto eth0
@@ -83,6 +88,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.3.0
 ```bash
+<br>
 ●	Lawine
 ```
 auto eth0
@@ -91,16 +97,19 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.3.0
 ```bash
+<br>
 ●	Richter
 ```
 auto eth0
 iface eth0 inet dhcp
 ```bash
+<br>
 ●	Revolte
 ```
 auto eth0
 iface eth0 inet dhcp
 ```bash
+<br>
 ●	Sein (dibuat static untuk ping domain)
 ```
 auto eth0
@@ -109,11 +118,13 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.4.0
 ```bash
+<br>
 ●	Stark
 ```
 auto eth0
 iface eth0 inet dhcp
 ```bash
+<br>
 ●	Frieren
 ```
 auto eth0
@@ -122,6 +133,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.4.0
 ```bash
+<br>
 ●	Flamme
 ```
 auto eth0
@@ -130,6 +142,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.20.4.0
 ```bash
+<br>
 ●	Fern
 ```
 auto eth0
